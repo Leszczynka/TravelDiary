@@ -28,6 +28,7 @@ share/python-wheels/
 MANIFEST
 venv/
 .idea
+postgres_data
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
