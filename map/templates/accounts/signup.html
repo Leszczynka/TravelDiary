@@ -2,7 +2,7 @@
 {% block title %} Register Page {% endblock title%}
 {% block content %}
     {% if form.errors %}
-        <div class="alert alert-danger alert-dismissible" role="alert">
+        <div class="alert alert-danger alert-dismissible" role="alert" xmlns="http://www.w3.org/1999/html">
             <div id="form_errors">
                 {% for key, value in form.errors.items %}
                 <strong>{{ value }}</strong>
@@ -15,6 +15,8 @@
     {% endif %}
     <form method="POST">
         {% csrf_token %}
-        {{ form }}
+        <table>{{ form }}</table>
+      <input type="submit" value="Submit" class="btn btn-primary">
     </form>
+{% endblock %}
 
