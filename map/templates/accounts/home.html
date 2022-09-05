@@ -1,0 +1,5 @@
+{% extends "accounts/base.html" %}
+{% block title %}Home Page{% endblock title%}
+{% block content %}
+        <h1>Welcome {{ user.username|default:'Guest'}}</h1>
+{% endblock content %}
