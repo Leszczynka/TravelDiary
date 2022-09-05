@@ -8,8 +8,8 @@ class SignUpForm(UserCreationForm):
     last_name = CharField(max_length=20, required=True)
     username = CharField(max_length=20, required=True)
     email = EmailField(max_length=50, required=True)
-    password1 = CharField(max_length=50, required=True)
-    password2 = CharField(max_length=50, required=True)
+    password1 = CharField(max_length=50, required=True, label="Password")
+    password2 = CharField(max_length=50, required=True, label="Password confirmation")
 
     class Meta(UserCreationForm.Meta):
         model = User
