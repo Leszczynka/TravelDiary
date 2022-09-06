@@ -4,7 +4,8 @@ from django.views.generic import CreateView
 from map.forms import SignUpForm
 from django.contrib.auth.decorators import login_required
 from .forms import UpdateProfileForm, UpdateUserForm
-from .signals import create_profile
+
+
 def home(request):
     return render(request, 'accounts/home.html')
 
@@ -18,13 +19,13 @@ class SignUpView(CreateView):
 
         if form.is_valid():
             form.save()
-
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account created for {username}')
 
             return redirect(to='/')
 
         return render(request, self.template_name, {'form': form})
+
 
 @login_required()
 def profile(request):
@@ -39,8 +40,8 @@ def profile(request):
             return redirect(to='users-profile')
     else:
         user_form = UpdateUserForm(instance=request.user)
-        profile_form=UpdateProfileForm(instance=request.user.profile)
-    return render(request, 'accounts/profile.html',{'user_form':user_form, 'profile_form':profile_form})
+        profile_form = UpdateProfileForm(instance=request.user.profile)
+    return render(request, 'accounts/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
 

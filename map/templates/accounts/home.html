@@ -1,5 +1,7 @@
 {% extends "accounts/base.html" %}
 {% block title %}Home Page{% endblock title%}
 {% block content %}
-        <h1>Welcome {{ user.username|default:'Guest'}}</h1>
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome, {{user.username |default:'Guest'}}</h1>
+    </div>
 {% endblock content %}

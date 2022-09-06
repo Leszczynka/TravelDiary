@@ -2,7 +2,7 @@
 {% block title %}Profile Page{% endblock title %}
 {% block content %}
     <div class="row my-3 p-3">
-        <img class="rounded-circle account-img" src="{{ user.profile.avatar.url }} " style="cursor: pointer;"/>
+        <img class="rounded-circle account-img" src="{{ request.user.profile.avatar.url }} " style="cursor: pointer;"/>
     </div>
     {% if user_form.errors %}
         <div class="alert alert-danger alert-dismissible" role="alert">
@@ -16,26 +16,17 @@
             </button>
         </div>
     {% endif %}
-    <div class="form-content">
+    <div>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="form-row">
-                <div class="col-md-5">
-                    <div class="form-group">
-                        <label class="small mb-1">Username:</label>
-                            {{ user_form.username }}
-                        <label class="small mb-1">Email:</label>
-                            {{ user_form.email }}
-                    </div>
-                    <div class="form-group">
-                        <a href="#">Change Password</a>
-                        <hr>
-                        <label class="small mb-1">Change Avatar:</label>
-                        {{ profile_form.avatar }}
-                    </div>
-                    <label class="small mb-1">Bio:</label> {{ profile_form.bio }}
+            <table>{{ form }}</table>
+                <div>
+                    <label>Change avatar:</label> {{ profile_form.avatar }}<hr>
+                    <label>Change username:</label> {{ user_form.username }}<hr>
+                    <label>Change email:</label> {{ user_form.email }}<hr>
+                    <a href="{% url 'password-change' %}">Change Password</a><hr>
+                    <label>Bio:</label> {{ profile_form.bio }}<hr>
                 </div>
-            </div>
             <br><br>
             <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
             <button type="reset" class="btn btn-dark btn-lg">Reset</button>

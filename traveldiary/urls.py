@@ -30,7 +30,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name='accounts/login.html'), name='login'),
     path('logout/', LogoutView.as_view(template_name='accounts/logout.html'), name='logout'),
 
-    path('password_change/', PasswordChangeView.as_view(template_name='accounts/change_password.html'), name='password_change'),
+    path('password_change/', PasswordChangeView.as_view(template_name='accounts/change_password.html'), name='password-change'),
     path('password_change/done/', PasswordChangeDoneView.as_view(template_name='accounts/change_password_done.html'), name='password_change_done'),
     path('profile/', profile, name='users-profile'),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
