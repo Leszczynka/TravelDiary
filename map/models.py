@@ -1,23 +1,18 @@
 from PIL import Image
 from django.contrib.auth.models import User
 from django.contrib.gis.db.models import PointField
-from django.db.models import CharField, TextField, DateField, Model, CASCADE, OneToOneField, ImageField, EmailField
+from django.db.models import TextField, Model, CASCADE, OneToOneField, ImageField, FloatField, DateField, CharField
 
 
 class Marker(Model):
-    name = CharField(max_length=100)
-    location = PointField(srid=4326)
-    description = TextField()
-    date = DateField(null=True)
+    name = CharField(max_length=100, null=True)
+    location = PointField(null=True)
 
 
 class Profile(Model):
     user = OneToOneField(User, on_delete=CASCADE)
     avatar = ImageField(default='default.jpg', upload_to='profile_images')
     bio = TextField()
-
-    def __str__(self):
-        return self.user.username
 
     def save(self, *args, **kwargs):
         super().save()
@@ -28,3 +23,5 @@ class Profile(Model):
             new_img = (100, 100)
             img.thumbnail(new_img)
             img.save(self.avatar.path)
+
+

@@ -1,8 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import CharField, EmailField, ModelForm, ImageField
-from .models import Profile
-from django import forms
+from .models import Profile, Marker
 
 
 class SignUpForm(UserCreationForm):
@@ -31,11 +30,17 @@ class UpdateUserForm(ModelForm):
         fields = ['username', 'email']
 
 
-class UpdateProfileForm(forms.ModelForm):
+class UpdateProfileForm(ModelForm):
     avatar = ImageField()
     bio = CharField(required=False)
 
     class Meta:
         model = Profile
         fields = ['avatar', 'bio']
+
+
+class AddMarkerForm(ModelForm):
+    class Meta:
+        model = Marker
+        fields = '__all__'
 

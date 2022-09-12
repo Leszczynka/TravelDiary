@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+    <div class="mapholder">
+        <div id="map"></div>
+        <link rel="stylesheet" type="text/css" href="{% static 'map.css' %}">
+        <script async src="https://maps.googleapis.com/maps/api/js?key={{ key }}&libraries=places&callback=initMap&v=weekly"></script>
+        <script src="{% static 'map.js' %}"></script>
+    </div>
+
+{% endblock %}

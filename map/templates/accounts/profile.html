@@ -1,35 +1,28 @@
-{% extends "accounts/base.html" %}
+{% extends 'base.html' %}
 {% block title %}Profile Page{% endblock title %}
 {% block content %}
-    <div class="row my-3 p-3">
-        <img class="rounded-circle account-img" src="{{ request.user.profile.avatar.url }} " style="cursor: pointer;"/>
+    <div>
+        <img src="{{ request.user.profile.avatar.url }}">
     </div>
+    <div>
     {% if user_form.errors %}
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <div id="form_errors">
-                {% for key, value in user_form.errors.items %}
-                    <strong>{{ value }}</strong>
-                {% endfor %}
-            </div>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+        {% for key, value in user_form.errors.items %}
+            {{ value }}
+        {% endfor %}
     {% endif %}
+    </div>
     <div>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <table>{{ form }}</table>
-                <div>
-                    <label>Change avatar:</label> {{ profile_form.avatar }}<hr>
-                    <label>Change username:</label> {{ user_form.username }}<hr>
-                    <label>Change email:</label> {{ user_form.email }}<hr>
-                    <a href="{% url 'password-change' %}">Change Password</a><hr>
-                    <label>Bio:</label> {{ profile_form.bio }}<hr>
-                </div>
-            <br><br>
-            <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
-            <button type="reset" class="btn btn-dark btn-lg">Reset</button>
+            <div>
+                <label>Change avatar:</label> {{ profile_form.avatar }}<hr>
+                <label>Change username:</label> {{ user_form.username }}<hr>
+                <label>Change email:</label> {{ user_form.email }}<hr>
+                <a href="{% url 'password-change' %}">Change Password</a><hr>
+                <label>Bio:</label> {{ profile_form.bio }}<hr>
+            </div>
+            <button type="submit">Save Changes</button>
+            <button type="reset">Reset</button>
         </form>
     </div>
 {% endblock content %}
