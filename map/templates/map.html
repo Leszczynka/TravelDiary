@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="mapholder">
+    <div id="map"></div>
+    <link rel="stylesheet" type="text/css" href="{% static 'map.css' %}">
+    <script src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap&v=weekly" defer></script>
+    <script src="{% static 'map.js' %}"></script>
+</div>
+{% endblock %}
