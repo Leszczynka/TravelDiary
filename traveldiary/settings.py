@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'map',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -72,6 +73,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'traveldiary.wsgi.application'
+# CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 # Database
@@ -136,4 +138,6 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+GOOGLE_API_KEY = 'AIzaSyDZTTewJYDP_pOk36RRaw1wHEz4Mdm62Ps'
 

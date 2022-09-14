@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import CharField, EmailField, ModelForm, ImageField
-from .models import Profile
+from .models import Profile, Location
 from django import forms
 
 
@@ -39,3 +39,12 @@ class UpdateProfileForm(forms.ModelForm):
         model = Profile
         fields = ['avatar', 'bio']
 
+
+class SearchForm(forms.ModelForm):
+    address = forms.CharField(label='')
+
+
+    class Meta:
+        model = Location
+        fields = ['address', ]
+        exclude = ['user']

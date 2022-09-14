@@ -1,10 +1,14 @@
 from PIL import Image
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.contrib.gis.db.models import PointField
-from django.db.models import CharField, TextField, DateField, Model, CASCADE, OneToOneField, ImageField, EmailField
+from django.db.models import CharField, TextField, DateField, Model, CASCADE, OneToOneField, ImageField, EmailField, \
+    ForeignKey
+from django.db import models
+from django.conf import settings
 
 
-class Marker(Model):
+class LocationMarker(Model):
     name = CharField(max_length=100)
     location = PointField(srid=4326)
     description = TextField()
@@ -28,3 +32,14 @@ class Profile(Model):
             new_img = (100, 100)
             img.thumbnail(new_img)
             img.save(self.avatar.path)
+
+
+class Location(models.Model):
+    address = models.CharField(max_length=200, null=True)
+    date = models.DateTimeField(auto_now_add=True)
+    lat = models.FloatField(null=True)
+    lng = models.FloatField(null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.address
+
