@@ -1,22 +1,18 @@
+import folium
+import geocoder
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView
-from map.forms import SignUpForm
+from map.forms import SignUpForm, AddMarkerForm
 from django.contrib.auth.decorators import login_required
 from .forms import UpdateProfileForm, UpdateUserForm
+from .models import Location
 
 
 def home(request):
-    return render(request, 'map.html')
-
-
-def map_view(request):
-    key = settings.GOOGLE_API_KEY
-    context = {
-        'key': key,
-    }
-    return render(request, 'map.html', context)
+    return render(request, 'accounts/home.html')
 
 
 class SignUpView(CreateView):
@@ -53,17 +49,48 @@ def profile(request):
     return render(request, 'accounts/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
-# class MarkersMapView(TemplateView):
-#     template_name = 'map.html'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['markers'] = Marker.objects.all()
-#         return context
-#
-#
-# class AddMarker(TemplateView):
-#     template_name = 'add_marker.html'
+@login_required()
+def add_location(request):
+    location = request.POST.get('name')
+    g = geocoder.osm(location)
+    lat = g.lat
+    lng = g.lng
+    if request.method == 'POST':
+        form = AddMarkerForm(request.POST)
+        if form.is_valid():
+            Location.objects.create(
+                name=location,
+                lat=lat,
+                lng=lng,
+                user_id=request.user.id
+            )
+        return redirect('map')
+    else:
+        form = AddMarkerForm()
+
+    location = Location.objects.all().last()
+    lat = location.lat
+    lng = location.lng
+    m = folium.Map(location=[52.237049, 21.017532], zoom_start=2)
+    if isinstance(lat, float) and isinstance(lng, float):
+        folium.Marker([lat, lng]).add_to(m)
+    else:
+        messages.error(request, "Invalid location")
+
+    m = m._repr_html_()
+    context = {'m': m, 'form': form}
+    return render(request, 'map.html', context)
 
 
+def show_locations(request):
+    current_user = request.user.id
+    m = folium.Map(location=[52.237049, 21.017532], zoom_start=2)
+    markers = Location.objects.all().filter(user_id=current_user)
+    for marker in markers:
+        lat = marker.lat
+        lng = marker.lng
+        folium.Marker([lat, lng]).add_to(m)
 
+    m = m._repr_html_()
+    context = {'m': m}
+    return render(request, 'map_with_markers.html', context)

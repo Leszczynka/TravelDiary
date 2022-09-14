@@ -1,12 +1,7 @@
 from PIL import Image
 from django.contrib.auth.models import User
-from django.contrib.gis.db.models import PointField
-from django.db.models import TextField, Model, CASCADE, OneToOneField, ImageField, FloatField, DateField, CharField
-
-
-class Marker(Model):
-    name = CharField(max_length=100, null=True)
-    location = PointField(null=True)
+from django.db.models import TextField, Model, CASCADE, OneToOneField, ImageField, FloatField, CharField, \
+    ForeignKey
 
 
 class Profile(Model):
@@ -25,3 +20,11 @@ class Profile(Model):
             img.save(self.avatar.path)
 
 
+class Location(Model):
+    name = CharField(max_length=100, null=True)
+    lat = FloatField(null=True)
+    lng = FloatField(null=True)
+    user = ForeignKey(User, on_delete=CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return self.name

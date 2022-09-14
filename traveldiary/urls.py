@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth.views import LogoutView, LoginView, PasswordChangeView, PasswordChangeDoneView
 from django.urls import path
-from map.views import home, SignUpView, map_view, profile
+from map.views import home, SignUpView, profile, add_location, show_locations
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -26,15 +26,12 @@ urlpatterns = [
     path('', home, name='home'),
 
     path('signup/', SignUpView.as_view(), name='signup'),
-
     path('login/', LoginView.as_view(template_name='accounts/login.html'), name='login'),
     path('logout/', LogoutView.as_view(template_name='accounts/logout.html'), name='logout'),
-
     path('password_change/', PasswordChangeView.as_view(template_name='accounts/change_password.html'), name='password-change'),
     path('password_change/done/', PasswordChangeDoneView.as_view(template_name='accounts/change_password_done.html'), name='password_change_done'),
     path('profile/', profile, name='users-profile'),
 
-    path('map', map_view, name='map'),
-    # path('addmarker', AddMarker.as_view(), name='add-marker'),
-
+    path('map/', add_location, name='map'),
+    path('locations/', show_locations, name='locations'),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

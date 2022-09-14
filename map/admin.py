@@ -1,14 +1,12 @@
 from django.contrib.gis import admin
-from django.contrib.gis.admin import OSMGeoAdmin
 
-from .models import Profile, Marker
+from .models import Profile, Location
 
 admin.site.register(Profile)
+admin.site.register(Location)
 
 
-@admin.register(Marker)
-class MarkerAdmin(OSMGeoAdmin):
-    list_display = ('name', 'location')
+
 
 
 
