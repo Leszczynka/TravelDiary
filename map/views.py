@@ -1,8 +1,7 @@
 import folium
 import geocoder
-from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.models import User
+from django.core.exceptions import BadRequest
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView
 from map.forms import SignUpForm, AddMarkerForm
@@ -51,11 +50,15 @@ def profile(request):
 
 @login_required()
 def add_location(request):
-    location = request.POST.get('name')
-    g = geocoder.osm(location)
-    lat = g.lat
-    lng = g.lng
     if request.method == 'POST':
+        location = request.POST.get('name')
+        g = geocoder.osm(location)
+        if not g.ok:
+            messages.error(request, "Invalid location")
+            return render(request, 'map.html')
+
+        lat = g.lat
+        lng = g.lng
         form = AddMarkerForm(request.POST)
         if form.is_valid():
             Location.objects.create(
@@ -71,7 +74,7 @@ def add_location(request):
     location = Location.objects.all().last()
     lat = location.lat
     lng = location.lng
-    m = folium.Map(location=[52.237049, 21.017532], zoom_start=2)
+    m = folium.Map(zoom_start=8)
     if isinstance(lat, float) and isinstance(lng, float):
         folium.Marker([lat, lng]).add_to(m)
     else:
@@ -82,9 +85,10 @@ def add_location(request):
     return render(request, 'map.html', context)
 
 
+@login_required()
 def show_locations(request):
     current_user = request.user.id
-    m = folium.Map(location=[52.237049, 21.017532], zoom_start=2)
+    m = folium.Map()
     markers = Location.objects.all().filter(user_id=current_user)
     for marker in markers:
         lat = marker.lat
