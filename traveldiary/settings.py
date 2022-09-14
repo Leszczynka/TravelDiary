@@ -120,8 +120,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-GOOGLE_API_KEY = 'AIzaSyDZTTewJYDP_pOk36RRaw1wHEz4Mdm62Ps'
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
