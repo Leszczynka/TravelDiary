@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.forms import CharField, EmailField, ModelForm, ImageField, FloatField
+from django.forms import CharField, EmailField, ModelForm, ImageField, FloatField, DateTimeField, SelectDateWidget, \
+    DateInput, DateField
 from .models import Profile, Location
 
 
@@ -39,12 +40,19 @@ class UpdateProfileForm(ModelForm):
         fields = ['avatar', 'bio']
 
 
+class DateInput(DateInput):
+    input_type = 'date'
+
+
 class AddMarkerForm(ModelForm):
     name = CharField(label='')
+    date = DateField(required=False, widget=DateInput())
+    description = CharField(max_length=500, required=False)
+    photo = ImageField(required=False)
     lat = FloatField(required=False)
     lng = FloatField(required=False)
 
     class Meta:
         model = Location
-        fields = ['name', 'lat', 'lng']
+        fields = ['name', 'date', 'description', 'photo', 'lat', 'lng']
 
