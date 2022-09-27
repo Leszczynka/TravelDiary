@@ -24,8 +24,6 @@ SECRET_KEY = 'django-insecure-uu41ya_f$kf06k$2d%2g3-o1r-3l-w%0stm7wkpy$8!2mkyr-@
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
 ]
 
 
@@ -125,6 +123,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "/static/")
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'login'

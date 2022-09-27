@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Create new travel memory</h2>
+    <div class="row">
+        <div class="col-sm-12 col-md-6 mt-1">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="my-1">Travel destination:</label>
+                    <input type="text" class="form-control" name="name">
+                    <label class="my-1">Travel date:</label>
+                    <input type="date" class="form-control" name="date">
+                    <label class="my-1">Description:</label>
+                    <input type="text" class="form-control" name="description">
+                    <label class="my-1">Photo:</label>
+                    <input type="file" class="form-control" name="photo">
+                </div>
+                <br>
+                <button type="submit" class="btn btn-dark btn-lg my-3">Save your journey!</button>
+            </form>
+        </div>
+        <div class="col-sm-12 col-md-6 mt-4">
+            {{ m|safe }}
+        </div>
+    </div>
+</div>
+
+{#<div class="container">#}
+{#    <div class="row my-2">#}
+{#        <div class="col-md-10 offset-md-1">#}
+{#            #}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+
+{% endblock %}
