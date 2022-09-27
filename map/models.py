@@ -9,6 +9,9 @@ class Profile(Model):
     avatar = ImageField(default='default.jpg', upload_to='profile_images')
     bio = TextField()
 
+    def __str__(self):
+        return str(self.user)
+
     def save(self, *args, **kwargs):
         super().save()
 
@@ -37,7 +40,7 @@ class Location(Model):
 
         img = Image.open(self.photo.path)
 
-        if img.height > 300 or img.width > 300:
-            new_img = (300, 300)
+        if img.height > 200 or img.width > 200:
+            new_img = (180, 200)
             img.thumbnail(new_img)
             img.save(self.photo.path)

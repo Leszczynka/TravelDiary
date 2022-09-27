@@ -1,28 +1,40 @@
 {% extends 'base.html' %}
 {% block title %}Profile Page{% endblock title %}
 {% block content %}
-    <div>
-        <img src="{{ request.user.profile.avatar.url }}">
-    </div>
-    <div>
-    {% if user_form.errors %}
-        {% for key, value in user_form.errors.items %}
-            {{ value }}
-        {% endfor %}
-    {% endif %}
-    </div>
-    <div>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div>
-                <label>Change avatar:</label> {{ profile_form.avatar }}<hr>
-                <label>Change username:</label> {{ user_form.username }}<hr>
-                <label>Change email:</label> {{ user_form.email }}<hr>
-                <a href="{% url 'password-change' %}">Change Password</a><hr>
-                <label>Bio:</label> {{ profile_form.bio }}<hr>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-10 col-lg-4 offset-lg-4 text-center">
+                <img src="{{ request.user.profile.avatar.url }}">
+                {% if form.errors %}
+                    <div class="alert alert-warning" role="alert">
+                        <div id="form_errors">
+                            {% for key, value in form.errors.items %}
+                                <strong>{{ value }}</strong>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="form-group mt-2">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group my-1">
+                            <label class="my-1">Username:</label>
+                            <input type="text" class="form-control" name="username" value="{{ user_form.username.value }}">
+                            <label class="my-1">Email:</label>
+                            <input type="email" class="form-control" name="email" value="{{ user_form.email.value }}">
+                            <label for="bio" class="my-1">Bio:</label>
+                            <textarea class="form-control" id="bio" name="bio">{{ profile_form.bio.value }}</textarea>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label class="my-1">Change Avatar:</label>
+                            <input type="file" class="form-control" name="avatar" value="{{ profile_form.avatar.value }}">
+                        </div>
+                        <a href="{% url 'password-change' %}">Change Password</a>
+                        <br>
+                        <button type="submit" class="btn btn-dark btn-lg my-3">Save Changes</button>
+                    </form>
+                </div>
             </div>
-            <button type="submit">Save Changes</button>
-            <button type="reset">Reset</button>
-        </form>
+        </div>
     </div>
-{% endblock content %}
+{% endblock %}
