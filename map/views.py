@@ -1,7 +1,9 @@
+import base64
+
+from folium import IFrame
 import folium
 import geocoder
 from django.contrib import messages
-from django.core.exceptions import BadRequest
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView
 from map.forms import SignUpForm, AddMarkerForm
@@ -50,35 +52,28 @@ def profile(request):
 
 @login_required()
 def add_location(request):
+    m = folium.Map(location=[0, 0], zoom_start=2, min_zoom=2, max_bounds=True)
     if request.method == 'POST':
-        location = request.POST.get('name')
-        g = geocoder.osm(location)
-        if not g.ok:
-            messages.error(request, "Invalid location")
-            return render(request, 'map.html')
-
-        lat = g.lat
-        lng = g.lng
-        form = AddMarkerForm(request.POST)
+        form = AddMarkerForm(request.POST, request.FILES)
         if form.is_valid():
-            Location.objects.create(
-                name=location,
-                lat=lat,
-                lng=lng,
-                user_id=request.user.id
-            )
+            location = form.cleaned_data['name']
+            g = geocoder.osm(location)
+            if not g.ok:
+                messages.error(request, "Invalid location")
+                return render(request, 'map.html')
+            lat = g.lat
+            lng = g.lng
+
+            Location.objects.create(name=location,
+                                    date=form.cleaned_data['date'],
+                                    description=form.cleaned_data['description'],
+                                    photo=form.cleaned_data['photo'],
+                                    lat=lat,
+                                    lng=lng,
+                                    user_id=request.user.id)
         return redirect('map')
     else:
         form = AddMarkerForm()
-
-    location = Location.objects.all().last()
-    lat = location.lat
-    lng = location.lng
-    m = folium.Map(zoom_start=8)
-    if isinstance(lat, float) and isinstance(lng, float):
-        folium.Marker([lat, lng]).add_to(m)
-    else:
-        messages.error(request, "Invalid location")
 
     m = m._repr_html_()
     context = {'m': m, 'form': form}
@@ -88,12 +83,17 @@ def add_location(request):
 @login_required()
 def show_locations(request):
     current_user = request.user.id
-    m = folium.Map()
+    m = folium.Map(location=[10, 0], zoom_start=2, min_zoom=2, max_bounds=True)
     markers = Location.objects.all().filter(user_id=current_user)
     for marker in markers:
         lat = marker.lat
         lng = marker.lng
-        folium.Marker([lat, lng]).add_to(m)
+        encoded = base64.b64encode(open(marker.photo.path, 'rb').read())
+        html = '<img src="data:image/png;base64,{}">'.format
+        iframe = IFrame(html(encoded.decode('UTF-8')), width=300, height=300)
+
+        popup = folium.Popup(iframe)
+        folium.Marker([lat, lng], popup=popup).add_to(m)
 
     m = m._repr_html_()
     context = {'m': m}

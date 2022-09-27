@@ -1,10 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
 <div>
-    <form method="POST">
+    <div>
+        <img src="{{ request.location.photo.url }}">
+    </div>
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.name }}
-        <button  type="submit">Add marker</button>
+        <div>
+            <div>
+                <label>Travel destination:</label> {{ form.name }}
+            </div>
+            <div>
+                <label>Travel date:</label>{{ form.date }}
+            </div>
+            <div>
+                <label>Add a short description:</label> {{ form.description }}
+            </div>
+            <div>
+                <label>Add a photo:</label> {{ form.photo }}
+            </div>
+            <button type="submit">Save your journey!</button>
+            <button type="reset">Reset</button>
+        </div>
+
     </form>
 </div>
 
