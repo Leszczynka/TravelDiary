@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        {% for data in user_data %}
+            {% if data.photo %}
+                <div class="col-sm-4">
+                    <figure>
+                        <img src="{{ data.photo.url }}" class="w-100 shadow-1-strong rounded mb-4">
+                    </figure>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

@@ -1,9 +1,9 @@
 from django.contrib.gis import admin
 
-from .models import Profile, Location
+from .models import UserProfile, Marker
 
-admin.site.register(Profile)
-admin.site.register(Location)
+admin.site.register(UserProfile)
+admin.site.register(Marker)
 
 
 
