@@ -13,7 +13,7 @@ Django web application that allows users to store their travel memories on a map
 * Map view with all added markers.
 
 
-### Technologies
+### Technology
 * Python 3.10
 * Django 4.1
 * PostgreSQL 13.0 + postGIS 3.0
