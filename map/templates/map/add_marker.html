@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="container mt-5">
-        <h2>Create new travel memory</h2>
+        <h2 style="font-family: 'Lobster'; font-size: 36px;">Create new travel memory</h2>
         <div class="row">
             <div class="col-sm-12 col-md-6 mt-1">
-                {% if form.errors %}
-                    <div class="alert alert-warning" role="alert">
-                        <div id="form_errors">
-                            {% for key, value in form.errors.items %}
-                                <strong>{{ value }}</strong>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endif %}
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
+                    {% for field in form %}
+                        {% if field.errors %}
+                           {% for error in field.errors %}
+                               <div class="alert alert-danger">
+                                {{field.label}}: {{ error|escape }}
+                               </div>
+                           {% endfor %}
+                        {% endif %}
+                    {% endfor %}
                     <div class="form-group">
                         <label class="my-1">Travel destination:</label>
                         <input type="text" class="form-control" name="location">
@@ -22,16 +22,16 @@
                         <input type="date" class="form-control" name="date">
                         <label class="my-1">Description:</label>
                         <input type="text" class="form-control" name="description">
-                        {% if form.photo %}
+                        {% for photo in photo_form %}
                             <label class="my-1">Photo:</label>
-                            <input type="file" class="form-control" name="photo">
-                        {% endif %}
+                            <input type="file" multiple class="form-control" name="photo">
+                        {% endfor %}
                     </div>
-                    <br>
-                    <button type="submit" class="btn btn-dark btn-lg my-3">Save your journey!</button>
+
+                    <button type="submit" class="btn btn-outline-dark btn-lg my-3">Save your journey!</button>
                 </form>
             </div>
-            <div class="col-sm-12 col-md-6 mt-4">
+            <div class="col-sm-12 col-md-6">
                 {{ m|safe }}
             </div>
         </div>

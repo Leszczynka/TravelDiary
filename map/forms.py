@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import CharField, EmailField, ModelForm, ImageField, FloatField, DateInput, DateField
-from .models import UserProfile, Marker
+from .models import UserProfile, Marker, Photo
 
 
 class SignUpForm(UserCreationForm):
@@ -31,12 +31,23 @@ class ProfileForm(ModelForm):
 
 class AddMarkerForm(ModelForm):
     location = CharField(label='')
-    date = DateField(required=False)
+    date = DateField(required=True)
     description = CharField(max_length=500, required=False)
-    photo = ImageField(required=False)
-    lat = FloatField(required=False)
-    lng = FloatField(required=False)
 
     class Meta:
         model = Marker
-        fields = ['location', 'date', 'description', 'photo', 'lat', 'lng']
+        fields = ['location', 'date', 'description']
+
+
+class UpdateMarkerForm(ModelForm):
+    class Meta:
+        model = Marker
+        fields = ['date', 'description']
+
+
+class AddPhotoForm(ModelForm):
+    photo = ImageField(required=False)
+
+    class Meta:
+        model = Photo
+        fields = ['photo']

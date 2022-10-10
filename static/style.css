@@ -11,10 +11,11 @@ form {
     font-size: 14px;
 }
 
+
 #home {
     background: url(map1.jpeg) no-repeat center center fixed;
     display: table;
-    height: 88%;
+    height: 100%;
     width: 100%;
     position: relative;
     background-size: cover;

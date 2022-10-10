@@ -4,19 +4,19 @@
     <div class="container mt-2">
         <div class="row">
             <div class="col-10 col-lg-4 offset-lg-4 text-center">
-                <img src="{{ request.user.profile.avatar.url }}">
-                {% if form.errors %}
-                    <div class="alert alert-warning" role="alert">
-                        <div id="form_errors">
-                            {% for key, value in form.errors.items %}
-                                <strong>{{ value }}</strong>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endif %}
+                <img src="{{ request.user.userprofile.avatar.url }}">
                 <div class="form-group mt-2">
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
+                        {% for field in user_form %}
+                            {% if field.errors %}
+                               {% for error in field.errors %}
+                                   <div class="alert alert-danger">
+                                        {{field.label}}: {{ error|escape }}
+                                   </div>
+                               {% endfor %}
+                            {% endif %}
+                        {% endfor %}
                         <div class="form-group my-1">
                             <label class="my-1">Username:</label>
                             <input type="text" class="form-control" name="username" value="{{ user_form.username.value }}">
@@ -31,7 +31,7 @@
                         </div>
                         <a href="{% url 'password_change' %}">Change Password</a>
                         <br>
-                        <button type="submit" class="btn btn-dark btn-lg my-3">Save Changes</button>
+                        <button type="submit" class="btn btn-outline-dark btn-lg my-3">Save Changes</button>
                     </form>
                 </div>
             </div>

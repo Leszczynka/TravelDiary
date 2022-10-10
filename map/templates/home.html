@@ -5,7 +5,7 @@
     <div id="home">
         <div class="mask position-absolute top-0 end-0 bottom-0 start-0 " style="background-color: rgba(0, 0, 0, 0.5)"></div>
         <div class="landing-text">
-            <h1>WELCOME TO TRAVEL DIARY</h1>
+            <h1 style="font-family: 'Lobster'; font-size: 60px; letter-spacing: 2px">Welcome to Travel Diary</h1>
             <p>place where you can store your travel memories!</p>
             {% if user.is_authenticated %}
                 <a href="{% url 'add_marker' %}" class="btn btn-lg btn-outline-light">Add new memory</a>

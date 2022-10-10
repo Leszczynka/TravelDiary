@@ -1,17 +1,24 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block title %}Photo Gallery{% endblock title%}
 {% block content %}
-<div class="container">
-    <div class="row">
-        {% for data in user_data %}
-            {% if data.photo %}
-                <div class="col-sm-4">
-                    <figure>
-                        <img src="{{ data.photo.url }}" class="w-100 shadow-1-strong rounded mb-4">
-                    </figure>
+<div class="container mt-3 text-center">
+        <div class="row">
+        <h2 style="font-family: 'Lobster'; font-size: 40px; margin-bottom: 10px">Photo gallery</h2>
+        {% if photos %}
+            {% for photo in photos %}
+                <div class="col-md-4">
+                    <div class="card my-2">
+                        <img class="image-thumbail" src="{{ photo.photo.url }}">
+                        <div class="card-body">
+                            <small>{{ photo.marker.location }}</small><br>
+                            <small>{{ photo.marker.date }}</small><br>
+                            <small>{{ photo.marker.description }}</small><br>
+                        </div>
+                    </div>
                 </div>
-            {% endif %}
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
     </div>
-
 </div>
 {% endblock %}

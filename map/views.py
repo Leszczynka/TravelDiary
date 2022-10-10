@@ -1,18 +1,19 @@
 import base64
 import folium
 import geocoder
-from django.urls import reverse_lazy
+from PIL import Image
 from folium import IFrame
+from django.urls import reverse_lazy, reverse
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView, TemplateView
-from map.forms import SignUpForm, AddMarkerForm, ProfileForm, UserForm
+from map.forms import SignUpForm, AddMarkerForm, ProfileForm, UserForm, AddPhotoForm, UpdateMarkerForm
 from django.contrib.auth.decorators import login_required
-from .models import Marker
+from .models import Marker, Photo
 
 
 class HomeView(TemplateView):
-    template_name = 'accounts/home.html'
+    template_name = 'home.html'
 
 
 class SignUpView(CreateView):
@@ -22,7 +23,7 @@ class SignUpView(CreateView):
 
 
 @login_required()
-def create_profile(request):
+def update_profile(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
@@ -30,7 +31,7 @@ def create_profile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, 'Your Profile was updated successfully')
+            messages.success(request, 'Your Profile has been updated successfully.')
             return redirect(to='profile')
     else:
         user_form = UserForm(instance=request.user)
@@ -41,66 +42,134 @@ def create_profile(request):
 
 @login_required()
 def add_marker(request):
-    m = folium.Map(location=[0, 0], zoom_start=2, min_zoom=2, max_bounds=True)
     if request.method == 'POST':
-        form = AddMarkerForm(request.POST, request.FILES)
-        if form.is_valid():
-            location = form.cleaned_data['location']
-            g = geocoder.osm(location)
-            if not g.ok:
-                messages.error(request, "Invalid location")
-                return redirect(to='add_marker')
+        form = AddMarkerForm(request.POST)
+        photo_form = AddPhotoForm(request.FILES)
+        location = request.POST['location']
+        g = geocoder.osm(location)
+        if not g.ok:
+            messages.error(request, 'Invalid location. Location is required.')
+            return redirect(to='add_marker')
+        if form.is_valid() and photo_form.is_valid():
+            marker = form.save(commit=False)
+            marker.user = request.user
+            marker.lat = g.lat
+            marker.lng = g.lng
+            marker.save()
 
-            lat = g.lat
-            lng = g.lng
-            Marker.objects.create(location=location,
-                                  date=form.cleaned_data['date'],
-                                  description=form.cleaned_data['description'],
-                                  photo=form.cleaned_data['photo'],
-                                  lat=lat,
-                                  lng=lng,
-                                  user_id=request.user.id)
-            messages.success(request, "Marker added succesfully!")
-        return redirect('map')
+            photos = request.FILES.getlist('photo')
+            for photo in photos:
+                Photo.objects.create(photo=photo, marker=Marker.objects.last(), user_id=request.user.id)
+
+            messages.success(request, 'Marker has been added successfully.')
+            return redirect('map')
     else:
         form = AddMarkerForm()
+        photo_form = AddPhotoForm()
 
+    m = folium.Map(location=[0, 0], zoom_start=2, min_zoom=2, max_bounds=True)
     m = m._repr_html_()
-    context = {'m': m, 'form': form}
-    return render(request, 'add_marker.html', context)
+    context = {'m': m, 'form': form, 'photo_form': photo_form}
+    return render(request, 'map/add_marker.html', context)
 
 
 @login_required()
-def show_map(request):
-    current_user = request.user.id
+def show_markers_on_map(request):
     m = folium.Map(location=[10, 0], height='75%', zoom_start=2, min_zoom=2, max_bounds=True)
+    current_user = request.user.id
     markers = Marker.objects.all().filter(user_id=current_user)
     for marker in markers:
         lat = marker.lat
         lng = marker.lng
-        city = marker.location
+        location = marker.location
         date = marker.date
         desc = marker.description
-        photo = marker.photo
+        photos = Photo.objects.all().filter(marker_id=marker.id)
 
-        if photo:
-            encoded = base64.b64encode(open(marker.photo.path, 'rb').read()).decode('UTF-8')
-            html = f'<div id="title">{city}</div><hr><div id="desc">{desc}</div><hr><div id="date">{date}</div><br><img src="data:image/png;base64,{encoded}">'
-            iframe = IFrame(html, width=230, height=260)
+        html = f'<div id="title">{location}</div><div id="desc">{desc}</div><div id="date">{date}</div>'
+        if photos:
+            photo = photos.last().photo
+            smaller_photo = resize_photo(photo)
+            encoded = base64.b64encode(open(smaller_photo, 'rb').read()).decode('UTF-8')
+            html_photo = f'<img src="data:image/png;base64,{encoded}">'
+            html += html_photo
+            iframe = IFrame(html, width=220, height=220)
         else:
-            html = f'<div id="title">{city}</div><hr><div id="desc">{desc}</div><hr><div id="date">{date}</div>'
-            iframe = IFrame(html, width=130, height=130)
+            iframe = IFrame(html, width=150, height=70)
+
         popup = folium.Popup(iframe)
         folium.Marker([lat, lng], popup=popup).add_to(m)
 
     m = m._repr_html_()
     context = {'m': m}
-    return render(request, 'map_view.html', context)
+    return render(request, 'map/map_view.html', context)
+
+
+def update_marker(request, pk):
+    marker = Marker.objects.get(id=pk)
+    photos = Photo.objects.filter(marker_id=marker.id)
+    if request.method == 'POST':
+        photos = request.FILES.getlist('photo')
+        for photo in photos:
+            Photo.objects.create(photo=photo, marker_id=marker.id, user_id=request.user.id)
+
+        form = UpdateMarkerForm(request.POST, instance=marker)
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, 'Marker has been updated.')
+            return redirect('update_marker', pk=marker.id)
+
+    form = AddMarkerForm(instance=marker)
+    photo_form = AddPhotoForm()
+
+    context = {'form': form,  'photo_form': photo_form, 'marker': marker, 'photos': photos}
+    return render(request, 'map/update_marker.html', context)
+
+
+def delete_marker(request, pk):
+    marker = Marker.objects.get(id=pk)
+    if request.method == 'POST':
+        marker.delete()
+        messages.success(request, 'Marker has been deleted')
+        return redirect('manage_markers')
+
+    context = {'marker': marker}
+    return render(request, 'map/marker_confirm_delete.html', context)
 
 
 def make_photo_gallery(request):
     current_user = request.user.id
-    user_data = Marker.objects.all().filter(user_id=current_user)
-    context = {'user_data': user_data}
+    photos = Photo.objects.all().filter(user_id=current_user)
+    context = {'photos': photos}
 
     return render(request, 'photo_gallery.html', context)
+
+
+def manage_markers(request):
+    markers = Marker.objects.filter(user=request.user)
+    context = {'markers': markers}
+    return render(request, 'map/marker_manager.html', context)
+
+
+def delete_photo(request, pk):
+    photo = Photo.objects.get(id=pk)
+    if request.method == 'POST':
+        photo.delete()
+        messages.success(request, 'Photo has been deleted')
+        return redirect('manage_markers')
+
+    context = {'photo': photo}
+    return render(request, 'photo_confirm_delete.html', context)
+
+
+def resize_photo(photo):
+    path = photo.path
+    photo = Image.open(path)
+    result_width = 200
+    width_percent = (result_width / float(photo.size[0]))
+    hsize = int((float(photo.size[1]) * float(width_percent)))
+    smaller_photo = photo.resize((result_width, hsize), Image.ANTIALIAS)
+    smaller_photo_path = f'{path} + resized.jpg'
+    smaller_photo.save(smaller_photo_path, 'JPEG', quality=100)
+    return smaller_photo_path
