@@ -1,6 +1,6 @@
 # Travel Diary
 Django web application that allows users to store their travel memories on a map. 
-
+![image](https://user-images.githubusercontent.com/91879429/194930241-e97f70b1-bfe3-4be5-8c8c-64203ea25a9f.png)
 ## Table of contents
 * [Key features](#key-features)
 * [Technology](#technology)
@@ -9,11 +9,17 @@ Django web application that allows users to store their travel memories on a map
 
 ### Key features
 * User registration, login and profile creation.
+![image](https://user-images.githubusercontent.com/91879429/194930246-286bc528-f7b0-41d8-a99f-337bf7b9732c.png)
+![image](https://user-images.githubusercontent.com/91879429/194930234-a4ebc50e-50fc-459d-8c8c-c7da466eb1b1.png)
+![image](https://user-images.githubusercontent.com/91879429/194930238-9c0893c7-9e3d-4aff-a401-af47e3a634b4.png)
 * Adding markers to the map with additional information about the journey: location, date, description and photo.
+![image](https://user-images.githubusercontent.com/91879429/194930582-cbbcedb8-1df7-49b9-bcff-b74561a5602a.png)
 * Map view with all added markers.
+![image](https://user-images.githubusercontent.com/91879429/194930245-f45b8fea-2662-423d-b1a2-9a7b405991fe.png)
 * Photo gallery.
+![image](https://user-images.githubusercontent.com/91879429/194930230-b2c55648-63f3-4ce4-89d7-de2a8981db2a.png)
 * Update, Delete - manage markers.
-
+![image](https://user-images.githubusercontent.com/91879429/194930236-cf0baf97-6ef2-4e34-b33e-7018de723434.png)
 
 ### Technology
 * Python 3.10
