@@ -1,7 +1,5 @@
 # Travel Diary
 Django web application that allows users to store their travel memories on a map. 
-![alt text](/home/kurzol/Pictures/screenshot1.png)
-
 
 ## Table of contents
 * [Key features](#key-features)
@@ -13,11 +11,8 @@ Django web application that allows users to store their travel memories on a map
 * User registration, login and profile creation.
 * Adding markers to the map with additional information about the journey: location, date, description and photo.
 * Map view with all added markers.
-![alt text](/home/kurzol/Pictures/screenshot2.png)
 * Photo gallery.
-![alt text](/home/kurzol/Pictures/screenshot3.png)
 * Update, Delete - manage markers.
-![alt text](/home/kurzol/Pictures/screenshot3.png)
 
 
 ### Technology
