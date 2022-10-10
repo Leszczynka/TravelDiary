@@ -11,6 +11,8 @@ Django web application that allows users to store their travel memories on a map
 * User registration, login and profile creation.
 * Adding markers to the map with additional information about the journey: location, date, description and photo.
 * Map view with all added markers.
+* Photo gallery.
+* Update, Delete - manage markers.
 
 
 ### Technology
