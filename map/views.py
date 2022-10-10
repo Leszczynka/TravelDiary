@@ -3,7 +3,7 @@ import folium
 import geocoder
 from PIL import Image
 from folium import IFrame
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView, TemplateView
@@ -105,6 +105,7 @@ def show_markers_on_map(request):
     return render(request, 'map/map_view.html', context)
 
 
+@login_required()
 def update_marker(request, pk):
     marker = Marker.objects.get(id=pk)
     photos = Photo.objects.filter(marker_id=marker.id)
@@ -127,6 +128,7 @@ def update_marker(request, pk):
     return render(request, 'map/update_marker.html', context)
 
 
+@login_required()
 def delete_marker(request, pk):
     marker = Marker.objects.get(id=pk)
     if request.method == 'POST':
@@ -138,20 +140,23 @@ def delete_marker(request, pk):
     return render(request, 'map/marker_confirm_delete.html', context)
 
 
-def make_photo_gallery(request):
-    current_user = request.user.id
-    photos = Photo.objects.all().filter(user_id=current_user)
-    context = {'photos': photos}
-
-    return render(request, 'photo_gallery.html', context)
-
-
+@login_required()
 def manage_markers(request):
     markers = Marker.objects.filter(user=request.user)
     context = {'markers': markers}
     return render(request, 'map/marker_manager.html', context)
 
 
+@login_required()
+def make_photo_gallery(request):
+    current_user = request.user.id
+    photos = Photo.objects.filter(user_id=current_user)
+    context = {'photos': photos}
+
+    return render(request, 'photo_gallery.html', context)
+
+
+@login_required()
 def delete_photo(request, pk):
     photo = Photo.objects.get(id=pk)
     if request.method == 'POST':

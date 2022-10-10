@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Log In{% endblock title %}
 {% block content %}
-    <div class="container mt-3">
+    <div class="container mt-5">
         <div class="row">
             <div class="col-12 col-lg-4 offset-lg-4 text-center">
                 {% if form.errors %}
@@ -13,15 +13,15 @@
                         </div>
                     </div>
                 {% endif %}
-                <h2>Log In</h2>
-                <div class="form-group">
+                <h2 style="font-family: 'Lobster'; font-size: 40px;">Log In</h2>
+                <div class="form-group my-2">
                     <form method="POST">
                         {% csrf_token %}
-                        <div class="form-group mb-3">
+                        <div class="form-group my-3">
                             <label>Username</label>
                             <input type="text" class="form-control" name="username">
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="form-group my-3">
                             <label>Password</label>
                             <input type="password" class="form-control" name="password">
                         </div>

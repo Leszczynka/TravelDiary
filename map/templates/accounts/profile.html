@@ -4,7 +4,7 @@
     <div class="container mt-2">
         <div class="row">
             <div class="col-10 col-lg-4 offset-lg-4 text-center">
-                <img src="{{ request.user.userprofile.avatar.url }}">
+                <img style="width: 200px; height: 200px;" src="{{ request.user.userprofile.avatar.url }}">
                 <div class="form-group mt-2">
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
@@ -17,7 +17,7 @@
                                {% endfor %}
                             {% endif %}
                         {% endfor %}
-                        <div class="form-group my-1">
+                        <div class="form-group my-2">
                             <label class="my-1">Username:</label>
                             <input type="text" class="form-control" name="username" value="{{ user_form.username.value }}">
                             <label class="my-1">Email:</label>

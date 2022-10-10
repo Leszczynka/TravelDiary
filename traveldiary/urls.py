@@ -35,10 +35,10 @@ urlpatterns = [
 
     path('add_marker/', add_marker, name='add_marker'),
     path('map/', show_markers_on_map, name='map'),
-    path('update_marker/<str:pk>/', update_marker, name='update_marker'),
-    path('delete_marker/<str:pk>/', delete_marker, name='delete_marker'),
+    path('update_marker/<pk>/', update_marker, name='update_marker'),
+    path('delete_marker/<pk>/', delete_marker, name='delete_marker'),
     path('markers_manager/', manage_markers, name='manage_markers'),
 
     path('photo_gallery/', make_photo_gallery, name='photo_gallery'),
-    path('delete_photo/<str:pk>/', delete_photo, name='delete_photo'),
+    path('delete_photo/<pk>/', delete_photo, name='delete_photo'),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
