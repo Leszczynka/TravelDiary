@@ -13,12 +13,7 @@ import os
 from pathlib import Path
 from django.contrib import messages
 
-
-if os.name == 'nt':
-    VENV_BASE = os.environ['VIRTUAL_ENV']
-    os.environ['PATH'] = os.path.join(VENV_BASE, 'Lib\\site-packages\\osgeo') + ';' + os.environ['PATH']
-    os.environ['PROJ_LIB'] = os.path.join(VENV_BASE, 'Lib\\site-packages\\osgeo\\data\\proj') + ';' + os.environ['PATH']
-
+GDAL_LIBRARY_PATH = '/traveldiary/venv/lib/python3.10/site-packages/django/contrib/gis/gdal/libgdal.py'
 MESSAGE_TAGS = {
         messages.DEBUG: 'alert-secondary',
         messages.INFO: 'alert-info',
