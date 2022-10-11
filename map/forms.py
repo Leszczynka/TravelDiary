@@ -30,7 +30,7 @@ class ProfileForm(ModelForm):
 
 
 class AddMarkerForm(ModelForm):
-    location = CharField(label='')
+    location = CharField(required=True)
     date = DateField(required=True)
     description = CharField(max_length=500, required=False)
 

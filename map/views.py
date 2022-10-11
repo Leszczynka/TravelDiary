@@ -44,12 +44,12 @@ def update_profile(request):
 def add_marker(request):
     if request.method == 'POST':
         form = AddMarkerForm(request.POST)
+        photo_form = AddPhotoForm(request.FILES)
         location = request.POST['location']
         g = geocoder.osm(location)
         if not g.ok:
-            messages.error(request, 'Invalid location. Location is required.')
-            return redirect(to='add_marker')
-        if form.is_valid():
+            messages.error(request, 'Invalid location.')
+        if form.is_valid() and g.ok:
             marker = form.save(commit=False)
             marker.user = request.user
             marker.lat = g.lat
@@ -63,8 +63,9 @@ def add_marker(request):
             messages.success(request, 'Marker has been added successfully.')
             return redirect('map')
 
-    form = AddMarkerForm()
-    photo_form = AddPhotoForm()
+    else:
+        form = AddMarkerForm()
+        photo_form = AddPhotoForm()
 
     m = folium.Map(location=[0, 0], zoom_start=2, min_zoom=2, max_bounds=True)
     m = m._repr_html_()
@@ -117,7 +118,7 @@ def update_marker(request, pk):
         if form.is_valid():
             form.save()
 
-            messages.success(request, 'Marker has been updated.')
+            messages.success(request, 'Your travel memory has been updated successfully.')
             return redirect('update_marker', pk=marker.id)
 
     form = AddMarkerForm(instance=marker)
