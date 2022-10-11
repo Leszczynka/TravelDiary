@@ -13,7 +13,8 @@ import os
 from pathlib import Path
 from django.contrib import messages
 
-GDAL_LIBRARY_PATH = os.getenv('GDAL_LIBRARY_PATH')
+GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH')
+GEOS_LIBRARY_PATH = os.environ.get('GEOS_LIBRARY_PATH')
 
 MESSAGE_TAGS = {
         messages.DEBUG: 'alert-secondary',
