@@ -138,6 +138,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'map/static')
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'map/static/'),
 # )
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR,  'map/templates'),
+)
 
 
 LOGIN_REDIRECT_URL = '/'
