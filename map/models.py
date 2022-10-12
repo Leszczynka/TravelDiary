@@ -9,17 +9,8 @@ from traveldiary import settings
 
 class UserProfile(Model):
     user = OneToOneField(User, on_delete=CASCADE)
-    avatar = ImageField(default='default.jpg', upload_to='profile_images')
+    avatar = CloudinaryField('image')
     bio = TextField()
-
-    def save(self, *args, **kwargs):
-        super().save()
-
-        img = Image.open(self.avatar.path)
-        if img.height > 200 or img.width > 200:
-            new_img = (200, 200)
-            img.thumbnail(new_img)
-            img.save(self.avatar.path)
 
 
 class Marker(Model):
