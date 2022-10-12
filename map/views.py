@@ -91,9 +91,9 @@ def show_markers_on_map(request):
         if photos:
             photo = photos.last().photo
             photo_name = str(photo).split('/')[-1]
-            html_photo = CloudinaryImage(photo_name).image(width=180, crop='scale')
+            html_photo = CloudinaryImage(photo_name).image(width=190, crop='scale')
             html += html_photo
-            iframe = IFrame(html, width=220, height=220)
+            iframe = IFrame(html, width=200, height=220)
         else:
             iframe = IFrame(html, width=150, height=70)
 
