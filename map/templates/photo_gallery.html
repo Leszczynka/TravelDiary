@@ -8,7 +8,7 @@
         <h2 style="font-family: 'Lobster'; font-size: 40px; margin-bottom: 10px">Photo gallery</h2>
         {% if photos %}
             {% for photo in photos %}
-                <div class="col-md-4">
+                <div class="col-sm-12 col-md-4">
                     <div class="card my-2">
                         <img class="image-thumbail" src="{{ photo.photo.url }}">
                         <div class="card-body">
