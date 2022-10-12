@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 from django.contrib import messages
+import dj_database_url
+
 
 GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH')
 GEOS_LIBRARY_PATH = os.environ.get('GEOS_LIBRARY_PATH')
@@ -37,6 +39,9 @@ SECRET_KEY = 'django-insecure-uu41ya_f$kf06k$2d%2g3-o1r-3l-w%0stm7wkpy$8!2mkyr-@
 DEBUG = False
 
 ALLOWED_HOSTS = [
+    '0.0.0.0',
+    'localhost',
+    '127.0.0.1',
     'https://traveldiarymap.herokuapp.com/',
 ]
 
@@ -99,6 +104,8 @@ DATABASES = {
     }
 }
 
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
