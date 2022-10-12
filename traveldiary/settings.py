@@ -42,7 +42,7 @@ if not IS_HEROKU:
 
 if IS_HEROKU:
     ALLOWED_HOSTS = [
-        '.herokuapp.com',
+        '.traveldiary.com',
         'https://traveldiarymap.herokuapp.com/',
     ]
 else:
@@ -158,7 +158,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'map/static')
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'map/templates'),
 )
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'login'
