@@ -13,7 +13,6 @@ import os
 from pathlib import Path
 from django.contrib import messages
 import dj_database_url
-from django.test.runner import DiscoverRunner
 
 IS_HEROKU = "DYNO" in os.environ
 GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH')
@@ -102,26 +101,10 @@ WSGI_APPLICATION = 'traveldiary.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-MAX_CONN_AGE = 600
-
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': '*',
-        'USER': '*',
-        'PASSWORD': '*',
-        'HOST': '*',
-        'PORT': '5432'
-    }
+    'default': dj_database_url.config()
 }
-
-if "DATABASE_URL" in os.environ:
-    DATABASES["default"] = dj_database_url.config(
-        conn_max_age=MAX_CONN_AGE, ssl_require=True)
-
-    if "CI" in os.environ:
-        DATABASES["default"]["TEST"] = DATABASES["default"]
 
 
 # Password validation
@@ -178,18 +161,6 @@ LOGIN_URL = 'login'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
-class HerokuDiscoverRunner(DiscoverRunner):
-    def setup_databases(self, **kwargs):
-        self.keepdb = True
-        return super(HerokuDiscoverRunner, self).setup_databases(**kwargs)
-
-
-if "CI" in os.environ:
-    TEST_RUNNER = "gettingstarted.settings.HerokuDiscoverRunner"
-
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
