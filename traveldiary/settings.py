@@ -40,13 +40,7 @@ if not IS_HEROKU:
     DEBUG = True
 
 
-if IS_HEROKU:
-    ALLOWED_HOSTS = [
-        '.traveldiary.com',
-        'https://traveldiarymap.herokuapp.com/',
-    ]
-else:
-    ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # ALLOWED_HOSTS = [
 #     '0.0.0.0',
