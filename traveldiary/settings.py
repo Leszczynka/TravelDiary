@@ -13,10 +13,11 @@ import os
 from pathlib import Path
 
 import django_on_heroku
+import psycopg2
 from django.contrib import messages
 import dj_database_url
 
-
+IS_HEROKU = "DYNO" in os.environ
 GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH')
 GEOS_LIBRARY_PATH = os.environ.get('GEOS_LIBRARY_PATH')
 
@@ -38,14 +39,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-uu41ya_f$kf06k$2d%2g3-o1r-3l-w%0stm7wkpy$8!2mkyr-@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+if not IS_HEROKU:
+    DEBUG = True
 
-ALLOWED_HOSTS = [
-    '0.0.0.0',
-    'localhost',
-    '127.0.0.1',
-    'https://traveldiarymap.herokuapp.com/',
-]
+
+if IS_HEROKU:
+    ALLOWED_HOSTS = ["*"]
+else:
+    ALLOWED_HOSTS = []
+
+# ALLOWED_HOSTS = [
+#     '0.0.0.0',
+#     'localhost',
+#     '127.0.0.1',
+#     'https://traveldiarymap.herokuapp.com/',
+# ]
 
 
 # Application definition
@@ -63,6 +71,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -95,7 +104,7 @@ WSGI_APPLICATION = 'traveldiary.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-django_on_heroku.settings(locals())
+MAX_CONN_AGE = 600
 
 
 DATABASES = {
@@ -109,8 +118,12 @@ DATABASES = {
     }
 }
 
+if "DATABASE_URL" in os.environ:
+    DATABASES["default"] = dj_database_url.config(
+        conn_max_age=MAX_CONN_AGE, ssl_require=True)
 
-
+    if "CI" in os.environ:
+        DATABASES["default"]["TEST"] = DATABASES["default"]
 
 
 # Password validation
