@@ -5,7 +5,7 @@
     <div class="container mt-2">
         <div class="row">
             <div class="col-10 col-lg-4 offset-lg-4 text-center">
-                <img style="width: 200px; height: 200px;" src="{{ request.user.userprofile.avatar.url }}">
+                <img class="img-thumbnail" style="max-width: 200px; height: auto;" src="{{ request.user.userprofile.avatar.url }}">
                 <div class="form-group mt-2">
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
