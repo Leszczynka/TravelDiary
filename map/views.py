@@ -68,7 +68,7 @@ def add_marker(request):
         form = AddMarkerForm()
         photo_form = AddPhotoForm()
 
-    m = folium.Map(location=[0, 0], zoom_start=2, min_zoom=2, max_bounds=True)
+    m = folium.Map(location=[0, 0], zoom_start=1, min_zoom=1, max_bounds=True)
     m = m._repr_html_()
     context = {'m': m, 'form': form, 'photo_form': photo_form}
     return render(request, 'map/add_marker.html', context)
@@ -76,7 +76,7 @@ def add_marker(request):
 
 @login_required()
 def show_markers_on_map(request):
-    m = folium.Map(location=[10, 0], height='75%', zoom_start=2, min_zoom=2, max_bounds=True)
+    m = folium.Map(location=[10, 0], height='100%', zoom_start=2, min_zoom=1, max_bounds=True)
     current_user = request.user.id
     markers = Marker.objects.all().filter(user_id=current_user)
     for marker in markers:
