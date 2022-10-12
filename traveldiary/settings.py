@@ -11,11 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
-
-import django_on_heroku
-import psycopg2
 from django.contrib import messages
 import dj_database_url
+from django.test.runner import DiscoverRunner
 
 IS_HEROKU = "DYNO" in os.environ
 GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH')
@@ -173,12 +171,23 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'map/static')
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'map/templates'),
 )
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'login'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+class HerokuDiscoverRunner(DiscoverRunner):
+    def setup_databases(self, **kwargs):
+        self.keepdb = True
+        return super(HerokuDiscoverRunner, self).setup_databases(**kwargs)
+
+
+if "CI" in os.environ:
+    TEST_RUNNER = "gettingstarted.settings.HerokuDiscoverRunner"
 
 
 
