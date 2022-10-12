@@ -34,7 +34,7 @@
                         {% for photo in photos %}
                             <div class="col-md-4">
                                 <div class="card my-2">
-                                    <img class="image-thumbail" src="{{ photo.photo.url }}">
+                                    <img style="max-width: 100%; height: auto;" class="image-thumbail" src="{{ photo.photo.url }}">
                                     <a class="btn btn-sm btn-dark" href="{% url 'delete_photo' photo.id %}">Delete</a>
                                 </div>
                             </div>
