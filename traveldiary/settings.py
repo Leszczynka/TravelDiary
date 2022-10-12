@@ -41,7 +41,10 @@ if not IS_HEROKU:
 
 
 if IS_HEROKU:
-    ALLOWED_HOSTS = ['https://traveldiarymap.herokuapp.com/']
+    ALLOWED_HOSTS = [
+        '.herokuapp.com',
+        'https://traveldiarymap.herokuapp.com/',
+    ]
 else:
     ALLOWED_HOSTS = []
 
