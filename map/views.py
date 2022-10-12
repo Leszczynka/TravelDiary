@@ -2,6 +2,7 @@ import base64
 import folium
 import geocoder
 from PIL import Image
+from cloudinary import CloudinaryImage, uploader
 from folium import IFrame
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -89,9 +90,8 @@ def show_markers_on_map(request):
         html = f'<div id="title">{location}</div><div id="desc">{desc}</div><div id="date">{date}</div>'
         if photos:
             photo = photos.last().photo
-            smaller_photo = resize_photo(photo)
-            encoded = base64.b64encode(open(smaller_photo, 'rb').read()).decode('UTF-8')
-            html_photo = f'<img src="data:image/png;base64,{encoded}">'
+            photo_name = str(photo).split('/')[-1]
+            html_photo = CloudinaryImage(photo_name).image(width=220, crop='scale')
             html += html_photo
             iframe = IFrame(html, width=220, height=220)
         else:
@@ -169,12 +169,6 @@ def delete_photo(request, pk):
 
 
 def resize_photo(photo):
-    path = photo.path
-    photo = Image.open(path)
-    result_width = 200
-    width_percent = (result_width / float(photo.size[0]))
-    hsize = int((float(photo.size[1]) * float(width_percent)))
-    smaller_photo = photo.resize((result_width, hsize), Image.ANTIALIAS)
-    smaller_photo_path = f'{path} + resized.jpg'
-    smaller_photo.save(smaller_photo_path, 'JPEG', quality=100)
-    return smaller_photo_path
+    new = CloudinaryImage(photo).image(height=300, width=50)
+
+    return new
