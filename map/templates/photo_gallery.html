@@ -10,7 +10,7 @@
             {% for photo in photos %}
                 <div class="col-md-4">
                     <div class="card my-2">
-                        <img src="{{ photo.photo.url }}">
+                        <img style="max-width: 100%; height: auto;" src="{{ photo.photo.url }}">
                         <div class="card-body">
                             <small>{{ photo.marker.location }}</small><br>
                             <small>{{ photo.marker.date }}</small><br>
