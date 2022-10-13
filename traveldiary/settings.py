@@ -36,7 +36,6 @@ DEBUG = True
 ALLOWED_HOSTS = [
 ]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -133,22 +132,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'map/static')
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'map/static/'),
-# )
+
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'map/templates'),
 )
-
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'login'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 
 # Default primary key field type
