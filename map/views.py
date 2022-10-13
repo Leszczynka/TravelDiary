@@ -1,8 +1,6 @@
-import base64
 import folium
 import geocoder
-from PIL import Image
-from cloudinary import CloudinaryImage, uploader
+from cloudinary import CloudinaryImage
 from folium import IFrame
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -166,9 +164,3 @@ def delete_photo(request, pk):
 
     context = {'photo': photo}
     return render(request, 'photo_confirm_delete.html', context)
-
-
-def resize_photo(photo):
-    new = CloudinaryImage(photo).image(height=300, width=50)
-
-    return new

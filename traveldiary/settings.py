@@ -13,8 +13,6 @@ import os
 from pathlib import Path
 from django.contrib import messages
 import dj_database_url
-import cloudinary
-import cloudinary.uploader
 import cloudinary.api
 
 
@@ -22,12 +20,18 @@ IS_HEROKU = "DYNO" in os.environ
 GDAL_LIBRARY_PATH = os.environ.get('GDAL_LIBRARY_PATH')
 GEOS_LIBRARY_PATH = os.environ.get('GEOS_LIBRARY_PATH')
 
-CLOUDINARY_ROOT_URL = 'https://cloudinary.com/console/c-ac4c6dbd697ebf5d516fa2070c084d/media_library/folders/home'
-cloudinary.config(
-  cloud_name="djmzlsv4f",
-  api_key="525946876719667",
-  api_secret="Q_vBmOelIy4JbAFoKPIrS1l6Xo0"
-)
+CLOUDINARY_ROOT_URL = os.environ.get('CLOUDINARY_URL')
+CLOUD_NAME = os.environ.get('CLOUDINARY_NAME')
+API_KEY = os.environ.get('CLOUDINARY_KEY')
+API_SECRET = os.environ.get('CLOUDINARY_SECRET')
+
+
+# CLOUDINARY_ROOT_URL = 'https://cloudinary.com/console/c-ac4c6dbd697ebf5d516fa2070c084d/media_library/folders/home'
+# cloudinary.config(
+#   cloud_name="djmzlsv4f",
+#   api_key="525946876719667",
+#   api_secret="Q_vBmOelIy4JbAFoKPIrS1l6Xo0"
+# )
 
 MESSAGE_TAGS = {
         messages.DEBUG: 'alert-secondary',
@@ -124,6 +128,7 @@ DATABASES = {
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -161,17 +166,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'map/static')
-#
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'map/static/'),
-# )
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'map/templates'),
 )
-# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'login'

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.forms import CharField, EmailField, ModelForm, ImageField, FloatField, DateInput, DateField
+from django.forms import CharField, EmailField, ModelForm, ImageField, DateField
 from .models import UserProfile, Marker, Photo
 
 

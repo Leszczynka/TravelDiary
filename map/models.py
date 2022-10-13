@@ -1,10 +1,8 @@
-from PIL import Image
 from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import User
 from django.db.models import TextField, Model, CASCADE, OneToOneField, ImageField, FloatField, CharField, \
     ForeignKey, DateField
 
-from traveldiary import settings
 
 
 class UserProfile(Model):
@@ -30,6 +28,4 @@ class Photo(Model):
     marker = ForeignKey(Marker, on_delete=CASCADE)
     photo = CloudinaryField('image', blank=True, null=True)
 
-    def get_photo_url(self):
-        return '{}{}'.format(settings.CLOUDINARY_ROOT_URL, self.photo)
 
