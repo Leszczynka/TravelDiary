@@ -1,8 +1,5 @@
 # Travel Diary
-Django web application that allows users to store their travel memories on a map. 
-
-The app is deployed on heroku, you can check this out here:
-[Travel Diary](https://traveldiarymap.herokuapp.com/)
+Django web application that allows users to store their travel memories on a map.
 
 ![image](https://user-images.githubusercontent.com/91879429/194930241-e97f70b1-bfe3-4be5-8c8c-64203ea25a9f.png)
 
