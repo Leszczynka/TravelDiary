@@ -1,13 +1,13 @@
 {% extends "base.html" %}
-{% load static %}
 {% block title %}Home Page{% endblock title%}
 {% block content %}
     <div id="home">
         <div class="mask position-absolute top-0 end-0 bottom-0 start-0 " style="background-color: rgba(0, 0, 0, 0.5)"></div>
         <div class="landing-text">
-            <h1 style="font-family: 'Lobster'; font-size: 60px; letter-spacing: 2px">Welcome to Travel Diary</h1>
-            <h5 class="mb-4">place where you can store your travel memories!</h5>
+            <h1 class="lobster big-text">Welcome to Travel Diary</h1>
+            <h3 class="lobster">place where you can store your travel memories!</h3>
             {% if user.is_authenticated %}
+            <br>
                 <a href="{% url 'add_marker' %}" class="btn btn-lg btn-outline-light">Add new memory</a>
             {% else %}
                 <a href="{% url 'signup' %}" class="btn btn-lg btn-outline-light">START NOW</a>
