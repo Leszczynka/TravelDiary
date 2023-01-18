@@ -4,12 +4,12 @@
 {% block content %}
 <div class="container mt-3 text-center">
         <div class="row">
-        <h2 style="font-family: 'Lobster'; font-size: 40px; margin-bottom: 10px">Photo gallery</h2>
+        <h3 class="lobster">Photo gallery</h3>
         {% if photos %}
             {% for photo in photos %}
                 <div class="col-md-4">
                     <div class="card my-2">
-                        <img class="image-thumbail" src="{{ photo.photo.url }}">
+                        <img class="image-thumbnail" src="{{ photo.photo.url }}">
                         <div class="card-body">
                             <small>{{ photo.marker.location }}</small><br>
                             <small>{{ photo.marker.date }}</small><br>
