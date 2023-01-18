@@ -34,6 +34,10 @@ SECRET_KEY = 'django-insecure-uu41ya_f$kf06k$2d%2g3-o1r-3l-w%0stm7wkpy$8!2mkyr-@
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    '0.0.0.0',
+    '*'
 ]
 
 # Application definition
@@ -45,7 +49,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.gis',
     'map',
 ]
 
@@ -85,12 +88,12 @@ WSGI_APPLICATION = 'traveldiary.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'gis',
-        'USER': 'user001',
-        'PASSWORD': 'secret1234',
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_DB', 'postgres'),
+        'USER': os.environ.get('POSTGRES_USER', 'user'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'secret1234'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
+        'PORT': os.environ.get('POSTGRES_DATABASE_PORT', '5432')
     }
 }
 
@@ -135,7 +138,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'map/static')
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR,  'map/templates'),
+    os.path.join(BASE_DIR, 'map/templates'),
 )
 
 LOGIN_REDIRECT_URL = '/'

@@ -1,0 +1,60 @@
+version: "3.9"
+services:
+  web:
+    image: "traveldiary:latest"
+    ports:
+      - "8000:8000"
+    command: >
+      bash -c "
+        sleep 20 &&
+        python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=secret1234
+      - POSTGRES_DB=postgres
+      - POSTGRES_HOST=db
+    volumes:
+      - .:/traveldiary
+    depends_on:
+      - db
+      - migrations
+      - superuser
+  migrations:
+    image: "traveldiary:latest"
+    command: >
+      bash -c "
+        sleep 20 && python manage.py migrate"
+    depends_on:
+      - db
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=secret1234
+      - POSTGRES_DB=postgres
+      - POSTGRES_HOST=db
+      - POSTGRES_DATABASE_PORT=5432
+  superuser:
+    image: "traveldiary:latest"
+    command: >
+        bash -c "
+          sleep 30 && python manage.py createsuperuser --no-input"
+    environment:
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@admin.com
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=secret1234
+      - POSTGRES_HOST=db
+    depends_on:
+      - db
+      - migrations
+  db:
+    image: "postgres:latest"
+    ports:
+        - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=secret1234
+    volumes:
+      - ./postgres_data:/var/lib/postgresql
