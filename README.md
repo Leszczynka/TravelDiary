@@ -6,7 +6,7 @@ Django web application that allows users to store their travel memories on a map
 ## Table of contents
 * [Key features](#key-features)
 * [Technology](#technology)
-* [Setup](#setup-and-run)
+* [Setup and Run](#setup-and-run)
 
 ### Key features
 * User registration, login and profile creation.
