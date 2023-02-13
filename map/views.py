@@ -13,7 +13,7 @@ from .models import Marker, Photo
 
 
 class HomeView(TemplateView):
-    template_name = 'home.html'
+    template_name = 'map/home.html'
 
 
 class SignUpView(CreateView):
@@ -153,7 +153,7 @@ def make_photo_gallery(request):
     photos = Photo.objects.filter(user_id=current_user)
     context = {'photos': photos}
 
-    return render(request, 'photo_gallery.html', context)
+    return render(request, 'map/photo_gallery.html', context)
 
 
 @login_required()
@@ -165,7 +165,7 @@ def delete_photo(request, pk):
         return redirect('manage_markers')
 
     context = {'photo': photo}
-    return render(request, 'photo_confirm_delete.html', context)
+    return render(request, 'map/photo_confirm_delete.html', context)
 
 
 def resize_photo(photo):
