@@ -132,4 +132,5 @@ dmypy.json
 .pyre/
 
 
-media/
+media/profile_images
+media/travel_images
