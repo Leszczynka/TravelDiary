@@ -1,42 +1,29 @@
-{% extends 'base.html' %}
-{% block title %}Profile Page{% endblock title %}
+{% extends 'map/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
-    <div class="container mt-2">
-        <div class="row">
-            <div class="col-10 col-lg-4 offset-lg-4 text-center">
-                <div class="col md-2">
-                    <img class="img-thumbnail" src="{{ user.userprofile.avatar.url }}">
-                </div>
-                <div class="form-group mt-2">
-                    <form method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {% for field in user_form %}
-                            {% if field.errors %}
-                               {% for error in field.errors %}
-                                   <div class="alert alert-danger">
-                                        {{field.label}}: {{ error|escape }}
-                                   </div>
-                               {% endfor %}
-                            {% endif %}
-                        {% endfor %}
-                        <div class="form-group my-2">
-                            <label class="my-1">Username:</label>
-                            <input type="text" class="form-control" name="username" value="{{ user_form.username.value }}">
-                            <label class="my-1">Email:</label>
-                            <input type="email" class="form-control" name="email" value="{{ user_form.email.value }}">
-                            <label for="bio" class="my-1">Bio:</label>
-                            <textarea class="form-control" id="bio" name="bio">{{ profile_form.bio.value }}</textarea>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label class="my-1">Change Avatar:</label>
-                            <input type="file" class="form-control" name="avatar" value="{{ profile_form.avatar.value }}">
-                        </div>
-                        <a href="{% url 'password_change' %}">Change Password</a>
-                        <br>
-                        <button type="submit" class="btn btn-outline-dark btn-lg my-3">Save Changes</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="container mt-2">
+	<div class="row d-flex justify-content-center">
+		<div class="col-sm-10 col-md-5">
+			<div class="card mb-3">
+				<div class="card-body">
+					<div class="text-center">
+						<img class="img-thumbnail rounded-circle account-img mb-3" src="{{ user.userprofile.avatar.url }}">
+					</div>
+					<form method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						<fieldset class="form-group">
+							{{ user_form|crispy}}
+							{{ profile_form|crispy }}
+						</fieldset>
+						<a href="{% url 'password_change' %}" class="btn btn-outline-dark btn-sm my-1">Change Password</a>
+						<div class="form-group text-center">
+							<button type="submit" class="btn btn-outline-dark btn-lg my-3">Save Changes</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}

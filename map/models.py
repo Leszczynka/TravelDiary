@@ -13,8 +13,8 @@ class UserProfile(Model):
         super().save()
 
         img = Image.open(self.avatar.path)
-        if img.height > 200 or img.width > 200:
-            new_img = (200, 200)
+        if img.height > 400 or img.width > 400:
+            new_img = (400, 400)
             img.thumbnail(new_img)
             img.save(self.avatar.path)
 

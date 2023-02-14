@@ -1,0 +1,25 @@
+{% extends 'map/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container py-2 text-center">
+	<h3 class="my-header my-4">Photo Gallery</h3>
+	<div class="row row-cols-3 row-cols-md-4 g-3">
+		{% if photos %}
+			{% for photo in photos %}
+				<div class="col">
+					<div class="card h-100">
+						<img class="card-img-top" src="{{ photo.photo.url }}">
+						<div class="card-body text-center">
+							<h5>{{ photo.marker.location }}</h5>
+							<p>{{ photo.marker.date }}</p>
+							{% if photo.marker.description %}
+								<p>{{ photo.marker.description }}</p>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
