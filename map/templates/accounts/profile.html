@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="container mt-2">
-	<div class="row d-flex justify-content-center align-items-center">
+	<div class="row d-flex justify-content-center">
 		<div class="col-sm-10 col-md-5">
 			<div class="card mb-3">
 				<div class="card-body">
@@ -16,6 +16,7 @@
 							{{ user_form|crispy}}
 							{{ profile_form|crispy }}
 						</fieldset>
+						<a href="{% url 'password_change' %}" class="btn btn-outline-dark btn-sm my-1">Change Password</a>
 						<div class="form-group text-center">
 							<button type="submit" class="btn btn-outline-dark btn-lg my-3">Save Changes</button>
 						</div>

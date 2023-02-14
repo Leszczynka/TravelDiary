@@ -1,44 +1,34 @@
 {% extends 'map/base.html' %}
 {% block content %}
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-sm-12 col-md-10">
-                <h3 class="text-center my-4 lobster">My travel memories</h3>
-                {% if form.errors %}
-                    <div class="alert alert-warning" role="alert">
-                        <div id="form_errors">
-                            {% for key, value in form.errors.items %}
-                                <strong>{{ value }}</strong>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endif %}
-                <div class="card my-3">
-                    <div class="d-flex justify-content-center">
-                        <div class="card-body">
-                            <table class="table">
-                                <tr>
-                                    <th>Location</th>
-                                    <th>Date</th>
-                                    <th>Description</th>
-                                    <th>Delete</th>
-                                    <th>Update</th>
-                                </tr>
-                                {% for marker in markers %}
-                                    <tr>
-                                        <td>{{marker.location}}</td>
-                                        <td>{{marker.date}}</td>
-                                        <td>{{marker.description}}</td>
-                                        <td><a class="btn btn-sm btn-outline-dark" href="{% url 'delete_marker' marker.id %}">Delete</a></td>
-                                        <td><a class="btn btn-sm btn-outline-dark" href="{% url 'update_marker' marker.id %}">Update</a></td>
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-sm-12 col-md-10">
+				<h3 class="text-center my-header my-4">My travel memories</h3>
+				<div class="card my-3">
+					<div class="d-flex justify-content-center">
+						<div class="card-body">
+							<table class="table">
+								<tr>
+									<th>Location</th>
+									<th>Date</th>
+									<th>Description</th>
+									<th>Delete</th>
+									<th>Update</th>
+								</tr>
+								{% for marker in markers %}
+								<tr>
+									<td>{{marker.location}}</td>
+									<td>{{marker.date}}</td>
+									<td>{{marker.description}}</td>
+									<td><a class="btn btn-sm btn-outline-dark" href="{% url 'delete_marker' marker.id %}">Delete</a></td>
+									<td><a class="btn btn-sm btn-outline-dark" href="{% url 'update_marker' marker.id %}">Update</a></td>
+								</tr>
+								{% endfor %}
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

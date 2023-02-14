@@ -1,6 +1,5 @@
 {% extends 'map/base.html' %}
 {% load static %}
-{% block title %}Photo Gallery{% endblock title%}
 {% block content %}
 <div class="container py-2 text-center">
 	<h3 class="my-header my-4">Photo Gallery</h3>
@@ -11,7 +10,7 @@
 					<div class="card h-100">
 						<img class="card-img-top" src="{{ photo.photo.url }}">
 						<div class="card-body text-center">
-							<p>{{ photo.marker.location }}</p>
+							<h5>{{ photo.marker.location }}</h5>
 							<p>{{ photo.marker.date }}</p>
 							{% if photo.marker.description %}
 								<p>{{ photo.marker.description }}</p>

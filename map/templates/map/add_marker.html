@@ -1,39 +1,24 @@
 {% extends 'map/base.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
-    <div class="container mt-5">
-        <h3 class="lobster">Create new travel memory</h3>
-        <div class="row">
-            <div class="col-sm-12 col-md-6 mt-1">
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {% for field in form %}
-                        {% if field.errors %}
-                           {% for error in field.errors %}
-                               <div class="alert alert-danger">
-                                {{field.label}}: {{ error|escape }}
-                               </div>
-                           {% endfor %}
-                        {% endif %}
-                    {% endfor %}
-                    <div class="form-group">
-                        <label class="my-1">Travel destination:</label>
-                        <input type="text" class="form-control" name="location">
-                        <label class="my-1">Travel date:</label>
-                        <input type="date" class="form-control" name="date">
-                        <label class="my-1">Description:</label>
-                        <input type="text" class="form-control" name="description">
-                        {% for photo in photo_form %}
-                            <label class="my-1">Photo:</label>
-                            <input type="file" multiple class="form-control" name="photo">
-                        {% endfor %}
-                    </div>
-
-                    <button type="submit" class="btn btn-outline-dark btn-lg my-3">Save your journey!</button>
-                </form>
-            </div>
-            <div class="col-sm-12 col-md-6">
-                {{ m|safe }}
-            </div>
-        </div>
-    </div>
+<div class="container">
+	<h3 class="my-header mt-5">Create new travel memory</h3>
+	<div class="row">
+		<div class="col-sm-12 col-md-5 mt-1">
+				<form method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<fieldset class="form-group">
+						{{ form|crispy}}
+						{{ photo_form|crispy }}
+					</fieldset>
+					<div class="form-group text-center">
+						<button type="submit" class="btn btn-outline-dark btn-lg my-3">Save your journey!</button>
+					</div>
+				</form>
+		</div>
+		<div class="col-sm-12 col-md-7">
+			{{ m|safe }}
+		</div>
+	</div>
+</div>
 {% endblock %}

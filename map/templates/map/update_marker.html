@@ -1,54 +1,45 @@
 {% extends 'map/base.html' %}
 {% block content %}
-    <a href="{% url 'manage_markers' %}" class="btn btn-sm btn-outline-dark mt-3 ms-2">Return to markers list</a>
-    <div class="container my-3 text-center">
-        <div class="row justify-content-center">
-            <div class="col-sm-12 col-md-8">
-                <h2 class="lobster">Update your travel memory</h2>
-                {% if form.errors %}
-                    <div class="alert alert-warning" role="alert">
-                        <div id="form_errors">
-                            {% for key, value in form.errors.items %}
-                                <strong>{{ value }}</strong>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endif %}
-                <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                    <div class="form-group">
-                        <label class="my-1">Travel destination:</label>
-                        <div class="card">
-                            <h5 class="my-1 mx-2">{{ marker.location }}</h5>
-                        </div>
-                        <label class="my-1">Travel date:</label>
-                        <input type="date" class="form-control text-center" name="date" value="{{form.date.value | date:'c'}}">
-                        <label class="my-1">Description:</label>
-                        <input type="text" class="form-control text-center" name="description" value="{{ form.description.value }}">
-                    </div>
-                    <br>
-                    <label class="my-1">Photos:</label>
-                    <div class="row justify-content-center">
-                        {% if photos %}
-                        {% for photo in photos %}
-                            <div class="col-md-4">
-                                <div class="card my-2">
-                                    <img class="image-thumbail" src="{{ photo.photo.url }}">
-                                    <a class="btn btn-sm btn-dark" href="{% url 'delete_photo' photo.id %}">Delete</a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                        {% else %}
-                            <span>No photos uploaded yet.</span>
-                    {% endif %}
-                    </div>
-                    <div class="form-group my-1">
-                        <label class="my-1">Upload new photo/'s:</label>
-                        <input type="file" multiple class="form-control" name="photo">
-                    </div>
-                    <button type="submit" class="btn btn-outline-dark btn-lg my-3">Update your journey!</button><br>
-                </form>
-            </div>
-        </div>
-    </div>
+<a href="{% url 'manage_markers' %}" class="btn btn-sm btn-outline-dark mt-3 ms-2">Return to markers list</a>
+<div class="container my-3 text-center">
+	<div class="row justify-content-center">
+		<div class="col-sm-12 col-md-8">
+			<h2 class="lobster">Update your travel memory</h2>
+			<form method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="form-group">
+					<label class="my-1">Travel destination:</label>
+					<div class="card">
+						<h5 class="my-1 mx-2">{{ marker.location }}</h5>
+					</div>
+					<label class="my-1">Travel date:</label>
+					<input type="date" class="form-control text-center" name="date" value="{{form.date.value | date:'c'}}">
+					<label class="my-1">Description:</label>
+					<input type="text" class="form-control text-center" name="description" value="{{ form.description.value }}">
+				</div>
+				<br>
+				<label class="my-1">Photos:</label>
+				<div class="row justify-content-center">
+					{% if photos %}
+						{% for photo in photos %}
+						<div class="col-md-4">
+							<div class="card my-2">
+								<img class="image-thumbail" src="{{ photo.photo.url }}">
+								<a class="btn btn-sm btn-dark" href="{% url 'delete_photo' photo.id %}">Delete</a>
+							</div>
+						</div>
+						{% endfor %}
+					{% else %}
+					<span>No photos uploaded yet.</span>
+					{% endif %}
+				</div>
+				<div class="form-group my-1">
+					<label class="my-1">Upload new photo/'s:</label>
+					<input type="file" multiple class="form-control" name="photo">
+				</div>
+				<button type="submit" class="btn btn-outline-dark btn-lg my-3">Update your journey!</button><br>
+			</form>
+		</div>
+	</div>
+</div>
 {% endblock %}

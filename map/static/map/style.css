@@ -11,10 +11,8 @@ form {
     font-size: 14px;
 }
 
-h2 {
-    font-family: 'Lobster';
-    font-size: 60px;
-    letter-spacing: 2px;
+p {
+    margin-bottom: 0;
 }
 
 #home {
@@ -25,12 +23,7 @@ h2 {
     position: relative;
     background-size: cover;
     padding-top: 15px;
-}
-
-.big-text {
-    font-size: 70px;
-    letter-spacing: 3px;
-    spacing: 5px;
+    box-shadow: inset 0px 0px 0px 0px rgba(0, 0, 0, 0.5);
 }
 
 .landing-text {
@@ -43,11 +36,17 @@ h2 {
     color: white;
 }
 
+.big-text {
+    font-family: 'Lobster', sans-serif;
+    font-size: 70px;
+    letter-spacing: 3px;
+    spacing: 5px;
+}
+
 .my-header {
     font-family: 'Lobster', sans-serif;
-    font-size: 50px;
+    font-size: 40px;
     font-weight: normal;
-    color: #000000;
 }
 
 .account-img {
@@ -63,3 +62,4 @@ h2 {
     height: 30vw;
     object-fit: cover;
 }
+
