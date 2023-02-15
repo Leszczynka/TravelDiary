@@ -5,9 +5,9 @@ from folium import IFrame
 from PIL import Image
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView, TemplateView, UpdateView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, TemplateView
 from .forms import SignUpForm, AddMarkerForm, ProfileForm, UserForm, AddPhotoForm, UpdateMarkerForm
 from .models import Marker, Photo
 
@@ -159,6 +159,7 @@ def create_photo_gallery(request):
     return render(request, 'map/photo_gallery.html', context)
 
 
+@login_required()
 def add_photo(request, pk):
     marker = Marker.objects.get(id=pk)
     if request.method == 'POST':
