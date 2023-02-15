@@ -16,12 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth.views import LogoutView, LoginView, PasswordChangeView, PasswordChangeDoneView
 from django.urls import path
-from map.views import SignUpView, add_marker, show_markers_on_map, HomeView, update_profile, make_photo_gallery, delete_marker, \
-    manage_markers, update_marker, delete_photo
+from map.views import SignUpView, add_marker, display_map_with_markers, HomeView, profile, create_photo_gallery, \
+    delete_marker, \
+    manage_markers, update_marker, delete_photo, add_photo
 from django.conf import settings
 from django.conf.urls.static import static
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='home'),
@@ -31,14 +30,17 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(template_name='accounts/logout.html'), name='logout'),
     path('password_change/', PasswordChangeView.as_view(template_name='accounts/change_password.html'), name='password_change'),
     path('password_change/done/', PasswordChangeDoneView.as_view(template_name='accounts/change_password_done.html'), name='password_change_done'),
-    path('profile/', update_profile, name='profile'),
+    path('profile/', profile, name='profile'),
 
+    path('map/', display_map_with_markers, name='map'),
     path('add_marker/', add_marker, name='add_marker'),
-    path('map/', show_markers_on_map, name='map'),
     path('update_marker/<pk>/', update_marker, name='update_marker'),
     path('delete_marker/<pk>/', delete_marker, name='delete_marker'),
-    path('markers_manager/', manage_markers, name='manage_markers'),
+    path('manage_markers/', manage_markers, name='manage_markers'),
 
-    path('photo_gallery/', make_photo_gallery, name='photo_gallery'),
+    path('photo_gallery/', create_photo_gallery, name='photo_gallery'),
+    path('add_photo/<pk>/', add_photo, name='add_photo'),
     path('delete_photo/<pk>/', delete_photo, name='delete_photo'),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

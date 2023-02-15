@@ -1,0 +1,25 @@
+{% extends 'map/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<a href="{% url 'update_marker' marker.id %}" class="btn btn-sm btn-outline-dark mt-3 ms-2">Return to update marker</a>
+<div class="container my-3 text-center">
+	<div class="row justify-content-center">
+		<div class="col-sm-12 col-md-5">
+			<div class="card">
+				<div class="card-body">
+					<h2 class="my-header mb-4">Add photo</h2>
+					<form method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						<fieldset class="form-group">
+							{{ photo_form|crispy }}
+						</fieldset>
+						<div class="form-group text-center">
+							<button type="submit" class="btn btn-outline-dark btn-lg my-3">Add photo</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
