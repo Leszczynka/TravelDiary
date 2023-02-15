@@ -2,28 +2,30 @@
 {% block content %}
 	<div class="container">
 		<div class="row justify-content-center">
-			<div class="col-sm-12 col-md-10">
+			<div class="col-sm-12 col-md-8">
 				<h3 class="text-center my-header my-4">My travel memories</h3>
 				<div class="card my-3">
-					<div class="d-flex justify-content-center">
-						<div class="card-body">
-							<table class="table">
-								<tr>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table align-middle">
+								<thead>
 									<th>Location</th>
 									<th>Date</th>
 									<th>Description</th>
-									<th>Delete</th>
 									<th>Update</th>
-								</tr>
+									<th>Delete</th>
+								</thead>
+								<tbody>
 								{% for marker in markers %}
-								<tr>
-									<td>{{marker.location}}</td>
-									<td>{{marker.date}}</td>
-									<td>{{marker.description}}</td>
-									<td><a class="btn btn-sm btn-outline-dark" href="{% url 'delete_marker' marker.id %}">Delete</a></td>
-									<td><a class="btn btn-sm btn-outline-dark" href="{% url 'update_marker' marker.id %}">Update</a></td>
-								</tr>
+									<tr>
+										<td>{{marker.location}}</td>
+										<td>{{marker.date}}</td>
+										<td class="table-breakable">{{marker.description}}</td>
+										<td><a class="btn btn-sm btn-outline-dark" href="{% url 'update_marker' marker.id %}">Update</a></td>
+										<td><a class="btn btn-sm btn-outline-dark" href="{% url 'delete_marker' marker.id %}">Delete</a></td>
+									</tr>
 								{% endfor %}
+								</tbody>
 							</table>
 						</div>
 					</div>
