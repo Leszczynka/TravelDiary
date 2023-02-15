@@ -39,6 +39,10 @@ p {
     vertical-align: middle;
     color: white;
 }
+.small-text {
+    font-family: verdana;
+    font-size: 26px;
+}
 
 .big-text {
     font-family: 'Lobster', sans-serif;
