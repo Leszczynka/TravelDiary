@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'map',
+    'map.apps.MapConfig',
+    'users.apps.UsersConfig',
     'crispy_forms',
     'crispy_bootstrap5'
 ]

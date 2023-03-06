@@ -14,33 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.contrib.auth.views import LogoutView, LoginView, PasswordChangeView, PasswordChangeDoneView
-from django.urls import path
-from map.views import SignUpView, add_marker, display_map_with_markers, HomeView, profile, create_photo_gallery, \
-    delete_marker, \
-    manage_markers, update_marker, delete_photo, add_photo
 from django.conf import settings
+from django.urls import path, include
 from django.conf.urls.static import static
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', HomeView.as_view(), name='home'),
-
-    path('signup/', SignUpView.as_view(), name='signup'),
-    path('login/', LoginView.as_view(template_name='accounts/login.html'), name='login'),
-    path('logout/', LogoutView.as_view(template_name='accounts/logout.html'), name='logout'),
-    path('password_change/', PasswordChangeView.as_view(template_name='accounts/change_password.html'), name='password_change'),
-    path('password_change/done/', PasswordChangeDoneView.as_view(template_name='accounts/change_password_done.html'), name='password_change_done'),
-    path('profile/', profile, name='profile'),
-
-    path('map/', display_map_with_markers, name='map'),
-    path('add_marker/', add_marker, name='add_marker'),
-    path('update_marker/<pk>/', update_marker, name='update_marker'),
-    path('delete_marker/<pk>/', delete_marker, name='delete_marker'),
-    path('manage_markers/', manage_markers, name='manage_markers'),
-
-    path('photo_gallery/', create_photo_gallery, name='photo_gallery'),
-    path('add_photo/<pk>/', add_photo, name='add_photo'),
-    path('delete_photo/<pk>/', delete_photo, name='delete_photo'),
-    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('', include('map.urls')),
+    path('users/', include('users.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
